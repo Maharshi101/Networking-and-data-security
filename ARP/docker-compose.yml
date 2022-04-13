@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+    attacker:
+        image: handsonsecurity/seed-ubuntu:large
+        container_name: seed-attacker
+        tty: true
+        cap_add:
+                - ALL
+        privileged: true
+        volumes:
+                - /home/seed/Desktop/Arp-poisoning:/volumes
+        network_mode: host
+
+                  
+    User1:
+        image: handsonsecurity/seed-ubuntu:large
+        container_name: user1-10.9.0.6
+        tty: true
+        cap_add:
+                - ALL
+        volumes:
+                - /home/seed/Desktop/Arp-poisoning:/volumes
+        networks:
+            net-10.9.0.0:
+                ipv4_address: 10.9.0.6
+
+    User2:
+        image: handsonsecurity/seed-ubuntu:large
+        container_name: user2-10.9.0.7
+        tty: true
+        cap_add:
+                - ALL
+        volumes:
+                - /home/seed/Desktop/Arp-poisoning:/volumes                
+        networks:
+            net-10.9.0.0:
+                ipv4_address: 10.9.0.7
+
+
+networks:
+    net-10.9.0.0:
+        name: net-10.9.0.0
+        ipam:
+            config:
+                - subnet: 10.9.0.0/24
+
